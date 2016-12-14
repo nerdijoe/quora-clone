@@ -1,0 +1,19 @@
+
+<h1>Edit Profile</h1>
+<%=@user.username %>
+
+
+<form method=post action=/users/<%=@user.id%> >
+	
+	<!-- this line below is Important -->
+	<input id="hidden" type="hidden" name="_method" value="patch">
+
+	Full Name <input type=text placeholder="Full Name" name="user[fullname]" value="<%=@user.fullname%>"><br>
+	Username <input type=text placeholder="Username" name="user[username]" value="<%=@user.username%>"><br>
+	email <input type=text placeholder="Email" name="user[email]" value="<%=@user.email%>"><br>
+<!-- 	<input type=password placeholder="Password" name="user[password]"></br> -->
+	<input type=submit value="Save Changes">
+</form>
+
+
+<p><a href='/'>Back to Index</a></p>

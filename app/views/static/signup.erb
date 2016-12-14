@@ -2,9 +2,19 @@
 
 <h2>Sign up for an account!</h2>
 
-<form method=post action=/signup>
-	<input type=text placeholder="Full Name" name="user[full_name]"><br>
+<% if @new_user.nil?%>
+
+<form method=post action=/users>
+	<input type=text placeholder="Full Name" name="user[fullname]"><br>
+	<input type=text placeholder="Username" name="user[username]"><br>
 	<input type=text placeholder="Email" name="user[email]"><br>
 	<input type=password placeholder="Password" name="user[password]"></br>
 	<input type=submit value="Sign up">
 </form>
+
+<% else %>
+	<p> Username:<%=@new_user.username%> has created an account with email:<%=@new_user.email %> </p>
+<% end %>
+
+
+<p><a href='/'>Back to Index</a></p>

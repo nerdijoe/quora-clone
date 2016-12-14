@@ -42,6 +42,32 @@ end
 
 
 
+get '/users/new' do
+	erb :"static/signup"
+end
+
+post '/users' do
+	pp params
+	pp @new_user = User.new(params[:user])
+
+	if @new_user.save
+		# what should happen if the user is save?
+		pp "User is saved"
+		# AJAX
+		# {user_object: @new_user}.to_json
+	else
+	# what should happen if the user keyed in invalid date?
+		pp "user is not saved"
+		pp @new_user.errors
+	end
+
+	pp "*** end of post /signup ***"
+	@new_user
+	erb :"static/signup"
+end
+
+
+
 post '/login' do
 	pp "LOGIN"
 	pp params
@@ -98,3 +124,35 @@ get '/users/:id' do
 	erb :"static/profile"
 
 end
+
+
+get '/users/:id/edit' do
+	pp @user = User.find(params[:id])
+
+	erb :"static/profile_edit"
+
+end
+
+patch '/users/:id' do
+	pp "*** edit user"
+	pp @user = User.find(params[:id])
+	byebug
+	@user.fullname = params[:user][:fullname]
+	@user.username = params[:user][:username]
+	@user.email = params[:user][:email]
+	@user.save
+
+	redirect to :"/users/#{@user.id}"
+end
+
+
+delete '/users/:id/delete' do
+	pp @user = User.find(params[:id])
+
+	byebug
+	@user.delete
+
+	redirect to :'/'
+end
+
+
