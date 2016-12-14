@@ -8,6 +8,7 @@ set :session_secret, '*&(^B234'
 require 'pp'
 
 get '/' do
+	pp "home"
   erb :"static/index"
 end
 
@@ -16,9 +17,7 @@ get '/signup' do
 end
 
 post '/signup' do
-	
 	pp params
-
 	pp @new_user = User.new(params[:user])
 
 	if @new_user.save
@@ -26,18 +25,11 @@ post '/signup' do
 		pp "User is saved"
 		# AJAX
 		# {user_object: @new_user}.to_json
-
-
 	else
-	# what should happen if the user keyed in invalid date?
-	  
 		pp "user is not saved"
-
 		pp @new_user.errors
 	end
-
 	pp "*** end of post /signup ***"
-
 end
 
 
@@ -85,52 +77,41 @@ post '/login' do
 		puts "user does not exist"
 		erb :"static/signup"
 	else
-		#if found do stuff		
 		if @user.authenticate(params[:user][:password])
 			puts "Password is correct"
-			pp session[:user_id] = @user.id
+			# session[:user_id] = @user.id
+			login(@user)
 		else
 			puts "password is wrong"
-
+			@error_messages = "You may input a wrong email or password. Please try again."
 		end
-
-		#authenticate user
-		# if @user.authenticate(params[:user][:password])
-		# 	session[:id] = @user.id
-		# 	puts "Password is correct"
-		# else
-		# 	puts "password is wrong"
-		# end
-
 	end
 
 	erb :"static/index"
 end
 
 get '/logout' do
-	session.clear
-
+	logout
 	erb :"static/index"
 end
 
 get '/users/:id' do
 	p "User profile"
-
 	pp params
 
+	redirect to '/' if !logged_in?
+
 	p @user = User.find(params[:id])
-
-
 	erb :"static/profile"
 
 end
 
 
 get '/users/:id/edit' do
+	redirect to '/' if !logged_in?
+
 	pp @user = User.find(params[:id])
-
 	erb :"static/profile_edit"
-
 end
 
 patch '/users/:id' do
@@ -147,6 +128,8 @@ end
 
 
 delete '/users/:id/delete' do
+	redirect to '/' if !logged_in?
+
 	pp @user = User.find(params[:id])
 
 	byebug

@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 	# EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/
 
+	validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
 	validates :password_digest, length: {minimum: 8}, allow_nil: true
 	validates :email, :presence => true, :uniqueness => true, format: {with: EMAIL_REGEX, message: "email is invalid"}
 

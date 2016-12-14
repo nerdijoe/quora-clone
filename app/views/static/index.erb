@@ -15,8 +15,14 @@
 <% else %>
 	<h2>Login</h2>
 	<form method=post action=/login>
-		<input type=text placeholder="Email" name="user[email]"><br>
-		<input type=password placeholder="Password" name="user[password]"></br>
+		<input type=text placeholder="Email" name="user[email]" required><br>
+		<input type=password placeholder="Password" name="user[password]" required></br>
 		<input type=submit value="Login">
 	</form>
+
+	<%if @error_messages %>
+		<p> <%=@error_messages %> </p>
+	<% end %>
+
+
 <% end %>

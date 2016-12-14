@@ -11,5 +11,14 @@ helpers do
 	def logged_in?
 		!current_user.nil?
 	end
-	
+
+
+	def login(user)
+		session[:user_id] = user.id
+	end
+
+	def logout
+		session.clear
+	end
+
 end
