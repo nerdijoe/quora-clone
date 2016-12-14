@@ -6,10 +6,13 @@ class User < ActiveRecord::Base
 	has_secure_password
 	# alias_attribute :password_digest, :password
 	# EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/
+
 	validates :password_digest, length: {minimum: 8}, allow_nil: true
-	validates :email, :presence => true, :uniqueness => true
+	validates :email, :presence => true, :uniqueness => true, format: {with: EMAIL_REGEX, message: "email is invalid"}
 
 
+	# These methods are defined in the has_secure_password
   # def password
   #   @password ||= Password.new(password_digest)
   # end
@@ -23,7 +26,7 @@ class User < ActiveRecord::Base
 		User.where(email: email).first
 	end
 
-
+	# custom authenticate method
 	# def authenticate(password)
 	# 	p "Authenticate"
 	# 	p "@password_digest=#{@password_digest}"

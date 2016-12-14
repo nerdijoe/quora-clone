@@ -1,12 +1,21 @@
-<h1>Hello World</h1>
-<p>See Me in views/static/index.html.erb</p>
+<h1>Quora</h1>
 
-<a href="/signup">Sign up</a>
+<% if !logged_in? %>
+	<a href="/signup">Sign up</a>
+<% end %>
 
 
-<h2>Login</h2>
-<form method=post action=/login>
-	<input type=text placeholder="Email" name="user[email]"><br>
-	<input type=password placeholder="Password" name="user[password]"></br>
-	<input type=submit value="Login">
-</form>
+
+<% if logged_in? %>
+	<p> user is logged in </p>
+	<p><a href="/logout"> Log out </a></p>
+	<p><a href="/users/<%=current_user.id%>">My Profile</a></p>
+
+<% else %>
+	<h2>Login</h2>
+	<form method=post action=/login>
+		<input type=text placeholder="Email" name="user[email]"><br>
+		<input type=password placeholder="Password" name="user[password]"></br>
+		<input type=submit value="Login">
+	</form>
+<% end %>

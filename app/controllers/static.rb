@@ -1,7 +1,9 @@
-use Rack::Session::Cookie, :key => 'rack.session',
-                           :path => '/',
-                           :expire_after => 2592000, # In seconds
-                           :secret => 'super pass'
+# use Rack::Session::Cookie, :key => 'rack.session',
+#                            :expire_after => 2592000, # In seconds
+#                            :secret => 'super pass'
+
+enable :sessions
+set :session_secret, '*&(^B234'
 
 require 'pp'
 
@@ -28,7 +30,10 @@ post '/signup' do
 
 	else
 	# what should happen if the user keyed in invalid date?
+	  
 		pp "user is not saved"
+
+		pp @new_user.errors
 	end
 
 	pp "*** end of post /signup ***"
@@ -57,7 +62,7 @@ post '/login' do
 		#if found do stuff		
 		if @user.authenticate(params[:user][:password])
 			puts "Password is correct"
-			session[:id] = @user.id
+			pp session[:user_id] = @user.id
 		else
 			puts "password is wrong"
 
@@ -73,6 +78,23 @@ post '/login' do
 
 	end
 
+	erb :"static/index"
+end
+
+get '/logout' do
+	session.clear
 
 	erb :"static/index"
+end
+
+get '/users/:id' do
+	p "User profile"
+
+	pp params
+
+	p @user = User.find(params[:id])
+
+
+	erb :"static/profile"
+
 end
