@@ -21,7 +21,7 @@ get '/home' do
 		redirect_to_index
 	else
 		@questions = Question.order(:created_at)
-		byebug
+
 		erb :'static/home'
 	end
 end
@@ -131,7 +131,7 @@ end
 patch '/users/:id' do
 	pp "*** edit user"
 	pp @user = User.find(params[:id])
-	byebug
+	
 	@user.fullname = params[:user][:fullname]
 	@user.username = params[:user][:username]
 	@user.email = params[:user][:email]
@@ -146,7 +146,6 @@ delete '/users/:id/delete' do
 
 	pp @user = User.find(params[:id])
 
-	byebug
 	@user.destroy
 
 	redirect to :'/'
@@ -302,7 +301,6 @@ patch '/answers/:id' do
 	pp "*** edit answer"
 	pp @answer = Answer.find(params[:id])
 	
-	byebug
 	@answer.content = params[:answer][:content]
 	@answer.save
 
