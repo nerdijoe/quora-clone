@@ -1,0 +1,21 @@
+<h2> Edit answer </h2>
+
+<h3><%= @answer.content %></h3>
+<p>Question: <%= @answer.question.content %></p>
+
+<form method=post action=/answers/<%= @answer.id %> id="answers_form">
+	<!-- this line below is Important -->
+	<input id="hidden" type="hidden" name="_method" value="patch">
+
+	<textarea rows="4" cols="50" name="answer[content]" form="answers_form"><%= @answer.content %></textarea>
+
+	<input type=submit value="Save Changes">
+</form>
+
+
+
+
+<p>
+	<a href='/answers'>Back to My answers</a><br>
+	<a href='/'>Back to Index</a>
+</p>

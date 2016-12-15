@@ -1,0 +1,18 @@
+<h2> Edit question </h2>
+
+<h3><%= @question.content %></h3>
+
+<form method=post action=/questions/<%=@question.id%> >
+	<!-- this line below is Important -->
+	<input id="hidden" type="hidden" name="_method" value="patch">
+	Question: <input type=text placeholder="Your Question" name="question[content]" value="<%=@question.content%>"><br>
+	<input type=submit value="Save Changes">
+</form>
+
+
+
+
+<p>
+	<a href='/questions/<%= @question.id %>'>Back to question detail</a><br>
+	<a href='/'>Back to Index</a>
+</p>

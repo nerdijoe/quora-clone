@@ -1,0 +1,27 @@
+<h1> My Answers </h1>
+
+<% if @answers.count < 1%>
+	<p>You have not answered any questions</p>
+<% else %>
+	<p>Your posted answers:</p>
+
+	<% @answers.each do |a| %>
+		<p>
+			<p style="white-space: pre-line;"> <%= a.content %> </p>
+			<a href='/answers/<%= a.id %>/edit'>Edit answer</a><br>
+
+			<form method=post action=/answers/<%= a.id %>/delete >
+				<!-- this line below is Important -->
+				<input id="hidden" type="hidden" name="_method" value="delete">
+				<input type=submit value="Delete Answer">
+			</form>
+			question: <i> <a href='/questions/<%= a.question.id %>'><%= a.question.content %></a> </i><br>
+			<%= a.updated_at %>
+		</p>
+	<% end %>
+
+<% end %>
+
+
+
+<p><a href='/'>Back to Index</a></p>
