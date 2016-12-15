@@ -296,7 +296,6 @@ get '/answers/:id/edit' do
 	end
 end
 
-
 patch '/answers/:id' do
 	pp "*** edit answer"
 	pp @answer = Answer.find(params[:id])
@@ -317,5 +316,67 @@ delete '/answers/:id/delete' do
 	redirect to '/answers'
 
 end
+
+
+# **************************************************************************
+# question_votes
+# **************************************************************************
+
+get '/question_votes/:id' do
+	@question_votes = QuestionVote.where(question_id: params[:id])
+	
+	erb :'/static/question_votes_details'
+end
+
+
+post '/question_votes/:id/up' do
+	pp params
+
+	# if already exist, don't insert
+  if User.find(current_user.id).question_votes.where(question_id: params[:id]).count == 0
+
+		@question_vote = QuestionVote.new
+		@question_vote.user_id = current_user.id
+		@question_vote.question_id = params[:id]
+
+		if @question_vote.save
+			# what should happen if the user is save?
+			pp "question vote is saved"
+			# AJAX
+			# {user_object: @new_user}.to_json
+		else
+		# what should happen if the user keyed in invalid date?
+			pp "question vote is not saved"
+			pp @question_vote.errors
+		end
+
+	else
+		pp "already voted"
+	end
+
+	redirect to '/'
+end
+
+
+post '/question_votes/:id/down' do
+	pp params
+	# byebug
+	# if already exist, don't insert
+  if User.find(current_user.id).question_votes.where(question_id: params[:id]).count > 0
+  	pp "inside if"
+  	@question_vote = User.find(current_user.id).question_votes.where(question_id: params[:id]).first
+		@question_vote.destroy
+	else
+		pp "have NOT voted"
+	end
+	
+  # @question_vote = User.find(current_user.id).question_votes.where(question_id: params[:id]).first
+
+  # @question_vote.destroy
+  
+	redirect to '/'
+end
+
+
 
 

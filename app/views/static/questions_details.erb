@@ -17,7 +17,7 @@
 	<% @question.answers.each do |a| %>
 		<p>
 			<p style="white-space: pre-line;"> <%= a.content %> </p>
-			<i><%= a.user.username%> on <%= a.updated_at%></i>
+			<i><%= a.user.username%> on <%= format_date(a.updated_at) %></i>
 		</p>
 	<% end %>
 <% else %>

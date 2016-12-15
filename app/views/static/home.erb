@@ -20,7 +20,20 @@
 	<% @questions.each do |q| %>
 		<p>
 			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
-			<i>posted by <%= q.user.username %> on <%= format_date(q.created_at) %></i>
+			<i>posted by <%= q.user.username %> on <%= format_date(q.created_at) %></i><br>
+			Votes: <%= q.question_votes.count %>
+			<% if q.question_votes.count > 0 %>
+				, <a href='/question_votes/<%= q.id %>'>View Upvotes</a>
+			<% end %>
+			<% if q.question_votes.where(user_id: current_user.id).count == 0 %>
+				<form method=post action=/question_votes/<%= q.id %>/up>
+					<input type=submit value="Upvote">
+				</form>
+			<% else %>
+				<form method=post action=/question_votes/<%= q.id %>/down>
+					<input type=submit value="Downvote">
+				</form>
+			<% end %>
 		</p>
 	<% end %>
 

@@ -1,0 +1,15 @@
+<h2>Votes Details</h2>
+
+<h3>Question: <%= @question_votes.first.question.content %></h3>
+<p>Total upvotes: <%= @question_votes.count %></p>
+
+<% @question_votes.each do |qv| %>
+	<p> 
+		<%= qv.user.username %> (<%= format_date(qv.created_at) %>)
+	</p>
+<% end %>
+<% %>
+<% %>
+
+
+<p><a href="/home">Home</a></p>

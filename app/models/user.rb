@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
 	has_many :questions, dependent: :destroy
 	has_many :answers, dependent: :destroy
 
+	has_many :question_votes, dependent: :destroy
+	has_many :answer_votes, dependent: :destroy
+
 	# Validations
 	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/
 	validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
