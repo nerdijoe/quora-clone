@@ -1,0 +1,43 @@
+<h2> Question details </h2>
+
+<h3><%= @question.content %></h3>
+
+<a href='/questions/<%= @question.id %>/edit'>Edit this question</a>
+
+<form method=post action=/questions/<%= @question.id %>/delete >
+	<!-- this line below is Important -->
+	<input id="hidden" type="hidden" name="_method" value="delete">
+	<input type=submit value="Delete Question">
+</form>
+
+
+<p>Answers:</p>
+
+<% if @question.answers.count > 0%>
+	<% @question.answers.each do |a| %>
+		<p>
+			<p style="white-space: pre-line;"> <%= a.content %> </p>
+			<i><%= a.user.username%> on <%= a.updated_at%></i>
+		</p>
+	<% end %>
+<% else %>
+	<p> no answers yet..</p>
+<% end %>
+
+
+<h3>Reply to this question</h3>
+
+<form method=post action=/questions/<%= @question.id %>/answers id="answers_form">
+<!-- 	<input type=text placeholder="Your answer" name="answer[content]" required><br> -->
+	<textarea rows="4" cols="50" name="answer[content]" form="answers_form"></textarea>
+
+	<input type=submit value="Submit Answer">
+</form>
+
+
+<p>
+	<a href='/questions'>Back to Questions</a><br>
+	<a href='/'>Back to Index</a>
+</p>
+
+

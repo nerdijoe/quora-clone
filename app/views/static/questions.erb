@@ -1,0 +1,25 @@
+<h2>Questions</h2>
+
+<form method=post action=/questions>
+	<input type=text placeholder="Your question" name="question[content]" required><br>
+	<input type=submit value="Submit Question">
+</form>
+
+
+
+<% if @questions.count < 1 %>
+	<p>You have not posted any questions.</p>
+<% else %>
+	<p>Your posted questions:</p>
+
+	<% @questions.each do |q| %>
+		<p>
+			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
+			<%= q.updated_at %>
+		</p>
+	<% end %>
+
+<% end %>
+
+
+<p><a href='/'>Back to Index</a></p>

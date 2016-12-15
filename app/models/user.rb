@@ -1,13 +1,15 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
-	# This is Sinatra! Remember to create a migration!
 	include BCrypt
 	has_secure_password
-	# alias_attribute :password_digest, :password
-	# EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/
 
+	# Relationships
+	has_many :questions, dependent: :destroy
+	has_many :answers, dependent: :destroy
+
+	# Validations
+	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/
 	validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
 	validates :password_digest, length: {minimum: 8}, allow_nil: true
 	validates :email, :presence => true, :uniqueness => true, format: {with: EMAIL_REGEX, message: "email is invalid"}

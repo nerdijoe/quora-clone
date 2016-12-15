@@ -1,0 +1,31 @@
+<h1>Home</h1>
+
+<p> user is logged in </p>
+
+<p>
+	<a href="/questions">My questions</a> <br>
+	<a href="/answers">My answers</a>
+</p>
+
+<p><a href="/users/<%=current_user.id%>">My Profile</a></p>
+
+<p><a href="/logout"> Log out </a></p>
+
+
+<% if @questions.count < 1 %>
+	<p>no questions...</p>
+<% else %>
+	<p>Top Stories:</p>
+
+	<% @questions.each do |q| %>
+		<p>
+			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
+			<i>posted by <%= q.user.username %> on <%= format_date(q.created_at) %></i>
+		</p>
+	<% end %>
+
+<% end %>
+
+
+
+

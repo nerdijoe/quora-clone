@@ -21,4 +21,13 @@ helpers do
 		session.clear
 	end
 
+	def redirect_to_index
+		@error_messages = "Please login to gain access."
+		erb :"/static/index"
+	end
+
+	def format_date(t)
+		t.strftime('%b %d, %Y at %I:%M %p %Z')
+	end
+
 end
