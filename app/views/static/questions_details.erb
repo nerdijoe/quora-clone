@@ -17,12 +17,29 @@
 	<% @question.answers.each do |a| %>
 		<p>
 			<p style="white-space: pre-line;"> <%= a.content %> </p>
-			<i><%= a.user.username%> on <%= format_date(a.updated_at) %></i>
+			<i>posted by <%= a.user.username%> on <%= format_date(a.updated_at) %></i><br>
+			Votes: <div id="answer_vote_count<%= a.id %>"><%= a.answer_votes.count %></div>
+
+			<form method=post action=/answer_votes/<%= a.id %>/ajax_up class='answer_upvote'>
+				<% if a.answer_votes.where(user_id: current_user.id).count == 0 %>
+					<button type=submit id='upvote<%= a.id %>' class='upvote_false'>Upvote</button>
+				<% else %>
+					<button type=submit id='upvote<%= a.id %>' class='upvote_true'>Upvoted</button>
+				<% end %>
+			</form>
+
+			<form method=post action=/answer_votes/<%= a.id %>/ajax_down class='answer_downvote'>
+					<button type=submit >Downvote</button>
+			</form>
+
+
+
 		</p>
 	<% end %>
 <% else %>
 	<p> no answers yet..</p>
 <% end %>
+
 
 
 <h3>Reply to this question</h3>

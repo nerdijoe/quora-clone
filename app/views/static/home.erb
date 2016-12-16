@@ -1,15 +1,23 @@
+
+<div class="stage">
+
+<nav>
+	<a href="/questions">My questions</a>
+	<a href="/answers">My answers</a>
+
+	<a href="/users/<%=current_user.id%>">My Profile</a>
+	<a href="/logout"> Log out </a>
+
+</nav>
+
+
+<section>
+
 <h1>Home</h1>
 
-<p> user is logged in </p>
+<p> Hello <%= current_user.fullname %>! </p>
 
-<p>
-	<a href="/questions">My questions</a> <br>
-	<a href="/answers">My answers</a>
-</p>
 
-<p><a href="/users/<%=current_user.id%>">My Profile</a></p>
-
-<p><a href="/logout"> Log out </a></p>
 
 
 <% if @questions.count < 1 %>
@@ -21,19 +29,25 @@
 		<p>
 			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
 			<i>posted by <%= q.user.username %> on <%= format_date(q.created_at) %></i><br>
-			Votes: <%= q.question_votes.count %>
+			Votes: <div id="question_vote_count"><%= q.question_votes.count %></div>
+
 			<% if q.question_votes.count > 0 %>
-				, <a href='/question_votes/<%= q.id %>'>View Upvotes</a>
+				<a href='/question_votes/<%= q.id %>'>View Upvotes</a>
 			<% end %>
-			<% if q.question_votes.where(user_id: current_user.id).count == 0 %>
-				<form method=post action=/question_votes/<%= q.id %>/up>
-					<input type=submit value="Upvote">
+
+				<form method=post action=/question_votes/<%= q.id %>/ajax_up class='question_upvote'>
+					<% if q.question_votes.where(user_id: current_user.id).count == 0 %>
+						<button type=submit id='upvote<%= q.id %>' class='upvote_false'>Upvote</button>
+					<% else %>
+						<button type=submit id='upvote<%= q.id %>' class='upvote_true'>Upvoted</button>
+					<% end %>
 				</form>
-			<% else %>
-				<form method=post action=/question_votes/<%= q.id %>/down>
-					<input type=submit value="Downvote">
+
+				<form method=post action=/question_votes/<%= q.id %>/ajax_down class='question_downvote'>
+					<input type="hidden" name=question[id] value=<%= q.id %> >
+						<button type=submit >Downvote</button>
 				</form>
-			<% end %>
+
 		</p>
 	<% end %>
 
@@ -41,4 +55,9 @@
 
 
 
+</section>
+
+
+
+</div> <!-- end of div stage -->
 

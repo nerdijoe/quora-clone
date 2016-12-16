@@ -373,10 +373,134 @@ post '/question_votes/:id/down' do
   # @question_vote = User.find(current_user.id).question_votes.where(question_id: params[:id]).first
 
   # @question_vote.destroy
-  
+ 
 	redirect to '/'
 end
 
 
 
+
+# ajax
+
+post '/question_votes/:id/ajax_up' do
+	pp params
+	pp "ajax up"
+	# byebug
+	@existing_vote = User.find(current_user.id).question_votes.where(question_id: params[:id])
+
+	# if already exist, don't insert
+  if @existing_vote.count == 0
+
+		@question_vote = QuestionVote.new
+		@question_vote.user_id = current_user.id
+		@question_vote.question_id = params[:id]
+
+		
+		if @question_vote.save
+			pp "question vote is saved"
+			# AJAX
+			# byebug
+			{voted: 1, question_object: Question.find(params[:id]), qv_count: Question.find(params[:id]).question_votes.count }.to_json
+		else
+			pp "question vote is not saved"
+			pp @question_vote.errors
+		end
+
+	else
+		pp "already voted"
+		
+		@existing_vote.first.destroy
+
+		# byebug
+		{voted: 0, question_object: Question.find(params[:id]), qv_count: Question.find(params[:id]).question_votes.count}.to_json
+	end
+
+end
+
+
+post '/question_votes/:id/ajax_down' do
+	pp params
+	# byebug
+	# if exist, delete vote
+	@question_vote = User.find(current_user.id).question_votes.where(question_id: params[:id])
+
+  if @question_vote.count > 0
+  	pp "inside if"
+  	# @question_vote = User.find(current_user.id).question_votes.where(question_id: params[:id]).first
+
+		@question_vote.first.destroy
+		{voted: 1, question_object: Question.find(params[:id]), qv_count: Question.find(params[:id]).question_votes.count }.to_json
+
+	else
+		pp "have NOT voted"
+
+		{voted: 0, question_object: Question.find(params[:id]), qv_count: Question.find(params[:id]).question_votes.count }.to_json
+
+	end
+	
+  # @question_vote = User.find(current_user.id).question_votes.where(question_id: params[:id]).first
+
+  # @question_vote.destroy
+ 
+end
+
+# =========================
+# Answer Votes up
+# =========================
+
+post '/answer_votes/:id/ajax_up' do
+	pp params
+	pp "ajax up"
+	# byebug
+	@existing_vote = User.find(current_user.id).answer_votes.where(answer_id: params[:id])
+
+	# if already exist, don't insert
+  if @existing_vote.count == 0
+
+		@answer_vote = AnswerVote.new
+		@answer_vote.user_id = current_user.id
+		@answer_vote.answer_id = params[:id]
+
+		if @answer_vote.save
+			pp "answer vote is saved"
+			# AJAX
+			# byebug
+			{voted: 1, answer_object: Answer.find(params[:id]), av_count: Answer.find(params[:id]).answer_votes.count }.to_json
+		else
+			pp "answer vote is not saved"
+			pp @answer_vote.errors
+		end
+	else
+		pp "already voted"
+		@existing_vote.first.destroy
+
+		# byebug
+		{voted: 0, answer_object: Answer.find(params[:id]), av_count: Answer.find(params[:id]).answer_votes.count }.to_json
+
+	end
+
+end
+
+
+
+post '/answer_votes/:id/ajax_down' do
+	pp params
+	# byebug
+	# if exist, delete vote
+	@existing_vote = User.find(current_user.id).answer_votes.where(answer_id: params[:id])
+
+  if @existing_vote.count > 0
+  	pp "inside if"
+
+		@existing_vote.first.destroy
+		{voted: 1, answer_object: Answer.find(params[:id]), av_count: Answer.find(params[:id]).answer_votes.count }.to_json
+
+	else
+		pp "have NOT voted"
+
+		{voted: 0, answer_object: Answer.find(params[:id]), av_count: Answer.find(params[:id]).answer_votes.count }.to_json
+
+	end
+	 
+end
 
