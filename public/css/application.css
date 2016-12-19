@@ -1,41 +1,371 @@
 body {
-	background-color: white;
+	/*background-color: white;*/
 	font-family: Arial, Helvetica, sans-serif;
+	/*background-image: url("/img/index.jpg");*/
 
 }
 
 .stage {
 	width: 90%;
 	margin: auto;
+	/*margin-top: 10%;*/
+	/*position: relative;*/
+	/*background-color: yellow;*/
+	/*margin-top: 10%;*/
+	/*min-height: 10%;*/
+}
+
+
+.stage_index {
+	/*width: 90%;*/
+	/*margin: auto;*/
+	height: 100%;
+	background-image: url("/img/index.jpg");
+	/*background: rgb(255, 255, 255);*/
+	/*opacity: 0.5;*/
 
 }
+
+
+
+.logo_container {
+	position: absolute;
+	width: 400px;
+	top: 50%;
+	left: 50%;
+	margin: -200px 0 0 -200px;
+
+  border-radius: 8px;
+
+	/*box-shadow: 2px 2px 2px rgba(0,0,0,0.03) inset;*/
+	/*box-shadow: 3px 3px 3px 3px;*/
+	border: 1px solid grey;
+	background-color: white;
+}
+
+
+logo {
+	display: block;
+	font-family: lemonde-courrier, serif;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 70px;
+	color: #990000;
+	text-align: center;
+
+}
+
+logo a {
+	text-decoration: none;
+	color: #990000;
+}
+
+logo a:link {
+    color: #990000;
+}
+
+/* visited link */
+logo a:visited {
+    color: 990000;
+}
+
+/* mouse over link */
+logo a:hover {
+    color: #b30000;
+}
+
+
+logo_subtext {
+	display: block;
+	font-family: lemonde-courrier, serif;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	color: #535353;
+	text-align: center;
+
+}
+
+logo_gap {
+	height: 100px;
+}
+
+.box {
+  /*display: inline-block;*/
+  float:left;
+  width: 180px;
+  height: 200px;
+  margin: 5px;
+  /*background-color: red;*/
+  padding: 5px;
+}
+
+.alert_message {
+	font-size: 12px;
+}
+
+/*.logo_container form {
+	display: inline-block;
+}
+.logo_container input {
+	display: inline-block;
+}
+.logo_container button {
+	display: inline-block;
+}
+*/
+
+
+/* ************************************************* */
 
 nav {
-	position: absolute;
+	/*position: absolute;*/
 	width: 90%;
-	height: 50px;
+	/*height: 30px;  dont specify this to avoid the subsequent elemnent to shift down*/
+	/*margin: auto;*/
+	margin: 0 5% 0 5%;
+	/*background-color: grey;*/
+	/*border-bottom: 1px solid;*/
+
+}
+
+/*
+nav logo {
+	display: inline-block;
+	font-family: lemonde-courrier, serif;
+	font-style: normal;
+	font-weight: ;
+	font-size: 22px;
+	color: #990000;
+	text-align: center;
+	padding-right: 10px;
+	padding-top: 2px;
+}
+
+
+*/
+
+ul.topnav {
+	/*display: block;*/
+  list-style-type: none;
+  margin: 0px;
+  padding: 0;
+  overflow: hidden;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+    display: block;
+    color: #666666;
+    text-align: center;
+    padding: 0px 8px;
+    text-decoration: none;
+    margin-top: 6px;
+}
+
+ul.topnav li a.logo_home {
+	font-family: lemonde-courrier, serif;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 28px;
+	color: #990000;
+	margin-top: -3px;
+	/*text-align: center;*/
+	/*padding-right: 10px;*/
+	/*padding-top: 2px;*/
+
+}
+
+ul.topnav li a.logo_home:hover:not(.active) {
+	/*background-color: #111;*/
+	color: #b30000;
+
+}
+
+
+ul.topnav li a:hover:not(.active) {
+	/*background-color: #111;*/
+	color: #404040;
+
+}
+
+ul.topnav li a.active {background-color: #4CAF50;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px){
+    ul.topnav li.right, 
+    ul.topnav li {float: none;}
+}
+
+
+
+/* ************************************************* */
+
+
+.section {
 	margin: auto;
 
-	background-color: grey;
-
+	/*background-color: powderblue;*/
 }
 
 
-section {
-	position: relative;
-	top: 50px;
 
+form.home_question {
+  /*max-width: 80%;*/
+  margin: 10px auto;
+  padding: 10px 10px 44px;
+  background: #f4f7f8;
+  border-radius: 8px;
+
+/*padding: 20px 20px; */
+/*height: 80px;*/
+
+}
+input.home_question {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 18px;
+  width: 75%;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
+  /*border-radius: 5px;*/
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  float: left;
+}
+
+button.home_question {
+/*  padding: 19px 39px 18px 39px;*/  
+	/*padding: 10px 30px 10px 30px;*/
+	padding: 16px 10px 15px 10px;
+  /*color: #FFF;*/
+  color: #990000;
+  /*background-color: #4bc970;*/
+  background-color: white;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  font-weight: normal;
+  /*border-radius: 5px;*/
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  width: 25%;
+  /*border: 1px solid #3ac162;*/
+  border: none;
+	/*border-width: 1px 1px 3px;*/  
+	/*box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;*/
+  /*box-shadow: 0 10px rgba(255,255,255);*/
+  box-shadow: 0 3px #999;
+  margin-bottom: 10px;
+  cursor: pointer;
+  outline: none;
+  margin-top: -19px;
+  float: left;
+
+}
+button.home_question:hover {background-color: #e6e6e6}
+
+button.home_question:active {
+  background-color: #e6e6e6;
+  box-shadow: 0 5px #666;
+  transform: translateY(2px);
 }
 
 
+
+
+
+
+.question_container {
+
+}
+
+.question_single {
+	border: 1px solid grey;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 5px;	
+}
+
+.question_single a:link, a:visited {
+    /*background-color: #f44336;*/
+    color: #222222;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.question_single a:hover, a:active {
+    /*background-color: red;*/
+    color: #808080;
+}
+
+.question_single questiontitle {
+	display: block;
+	font-size: 20px;
+	font-weight: bold;
+	color: red;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.question_single uptext {
+	font-size: 11px;
+	color: #b3b3b3;
+	height: 15px
+}
+
+.question_single userinfo {
+	display: block;
+	font-size: 14px;
+	color: #b3b3b3;
+	padding-bottom: 5px;
+}
+
+
+button:active {
+  background-color: #8c8c8c;
+  box-shadow: 0 3px #666;
+  transform: translateY(2px);
+}
 
 
 .upvote_false {
 /*	background-color: #4bc970;
 */
-
+	border: none;
 }
 
 .upvote_true {
+	border: none;
+
 	background-color: #408f3d;
+}
+
+.question_upvote {
+	display: inline;
+}
+.question_downvote {
+	display: inline;
+}
+
+.downvote_button {
+	border: none;
+	/*box-shadow: 0 1px #999;*/
+
+}
+
+
+.question_vote_class {
+	display: inline-block;
 }

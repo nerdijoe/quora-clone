@@ -1,38 +1,61 @@
-
-<div class="stage">
-
 <nav>
-	<a href="/questions">My questions</a>
-	<a href="/answers">My answers</a>
+	
+	
+<!-- 	<div class='nav_item'><a href="/questions">My questions</a></div>
+	<div class='nav_item'><a href="/answers">My answers</a></div>
 
-	<a href="/users/<%=current_user.id%>">My Profile</a>
-	<a href="/logout"> Log out </a>
+	<div class='nav_item'><a href="/users/<%=current_user.id%>">My Profile</a></div>
+	<div class='nav_item_right'><a href="/logout"> Log out </a></div>
+ -->
+
+	<ul class="topnav">
+		<li><a class='logo_home' href="/">Koala</a></li>
+	  <li><a href="/questions">My questions</a></li>
+	  <li><a href="/answers">My answers</a></li>
+	  <li><a href="/users/<%=current_user.id%>">My Profile</a></li>
+	  <li class='right'><a href="/logout">Logout</a></li>
+	</ul>
+
 
 </nav>
 
+<div class="stage">
 
-<section>
-
-<h1>Home</h1>
+<div class='section'>
+<h3>Top Stories For You</h3>
 
 <p> Hello <%= current_user.fullname %>! </p>
 
+	<form class='home_question' method=post action=/home/questions>
+		<input class='home_question' type=text placeholder="Ask Koala" name="question[content]" required><br>
+		<button class='home_question' type=submit>Ask</button>
+	</form>
+
+</div>
 
 
+<div class='section'>
+
+
+
+
+<div class="question_container">
 
 <% if @questions.count < 1 %>
 	<p>no questions...</p>
 <% else %>
-	<p>Top Stories:</p>
 
 	<% @questions.each do |q| %>
-		<p>
-			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
-			<i>posted by <%= q.user.username %> on <%= format_date(q.created_at) %></i><br>
-			Votes: <div id="question_vote_count"><%= q.question_votes.count %></div>
+		<div class="question_single">
+		
+			<uptext> <%= format_date(q.created_at) %> </uptext>
+			<questiontitle><a href='/questions/<%= q.id %>'><%= q.content %></a></questiontitle>
+			<userinfo> posted by <%= q.user.username %></userinfo>
 
 			<% if q.question_votes.count > 0 %>
-				<a href='/question_votes/<%= q.id %>'>View Upvotes</a>
+				<a href='/question_votes/<%= q.id %>'><div class='question_vote_class' id="question_vote_count<%= q.id %>"><%= q.question_votes.count %> </div> votes</a>
+			<% else %>
+				<div class= 'question_vote_class' id="question_vote_count<%= q.id %>"><%= q.question_votes.count %></div> vote
 			<% end %>
 
 				<form method=post action=/question_votes/<%= q.id %>/ajax_up class='question_upvote'>
@@ -45,17 +68,19 @@
 
 				<form method=post action=/question_votes/<%= q.id %>/ajax_down class='question_downvote'>
 					<input type="hidden" name=question[id] value=<%= q.id %> >
-						<button type=submit >Downvote</button>
+						<button type=submit class='downvote_button' >Downvote</button>
 				</form>
 
-		</p>
+		
+		</div> <!-- end of div class question_single-->
 	<% end %>
 
 <% end %>
 
+</div> <!-- end of div class question_container -->
 
 
-</section>
+</div> <!-- end of section -->
 
 
 

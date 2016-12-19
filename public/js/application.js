@@ -24,10 +24,10 @@ $(document).ready(function(){
 			else {
 				
 				console.log("save")
+				$('#question_vote_count' + result.question_object.id ).empty()
+				$('#question_vote_count' + result.question_object.id ).append(result.qv_count)
 				
 				if(result.voted == 1) {
-					$('#question_vote_count').empty()
-					$('#question_vote_count').append(result.qv_count)
 					$button = $("#upvote" + result.question_object.id + ".upvote_false")
 					// debugger
 					$button.text("Upvoted")
@@ -35,8 +35,6 @@ $(document).ready(function(){
 				}
 				else
 				{
-					$('#question_vote_count').empty()
-					$('#question_vote_count').append(result.qv_count)
 					$button = $("#upvote" + result.question_object.id + ".upvote_true")
 					// debugger
 					$button.text("Upvote")
@@ -72,8 +70,8 @@ $(document).ready(function(){
 				
 				console.log("save")
 				
-				$('#question_vote_count').empty()
-				$('#question_vote_count').append(result.qv_count)
+				$('#question_vote_count' + result.question_object.id ).empty()
+				$('#question_vote_count' + result.question_object.id ).append(result.qv_count)
 
 				// debugger
 

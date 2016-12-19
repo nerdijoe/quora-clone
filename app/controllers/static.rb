@@ -194,6 +194,35 @@ post '/questions' do
 end
 
 
+post '/home/questions' do
+	redirect to '/' if !logged_in?
+
+	pp params
+	@new_question = Question.new(params[:question])
+	@new_question.user_id = current_user.id
+	
+	if @new_question.save
+		# what should happen if the user is save?
+		pp "Question is saved"
+		# AJAX
+		# {user_object: @new_user}.to_json
+	else
+	# what should happen if the user keyed in invalid date?
+		pp "Question is not saved"
+		pp @new_question.errors
+	end
+
+	pp "*** end of /questions new ***"
+	
+
+
+	redirect to '/home'
+end
+
+
+
+
+
 
 get '/questions/:id' do
 	# redirect to '/' if !logged_in?

@@ -1,42 +1,50 @@
-<h1>Quora</h1>
+<div class='stage_index'>
+
+<div class='logo_container'>
+	<logo><a href="/">Koala</a></logo>
+	<logo_subtext>The best answer to any question</logo_subtext>
+	<logo_gap></logo_gap>
+
+<div class='box'>
 
 <% if !logged_in? %>
-	<a href="/users/new">Sign up</a>
-<% end %>
-
-
-<% if !logged_in? %>
-	<h2>Login</h2>
+	Login
 	<form method=post action=/login>
 		<input type=text placeholder="Email" name="user[email]" required><br>
 		<input type=password placeholder="Password" name="user[password]" required></br>
-		<input type=submit value="Login">
+		<!-- <input type=submit value="Login"> -->
+		<button type=submit>Login</button>
 	</form>
 
 	<%if @error_messages %>
-		<p> <%=@error_messages %> </p>
+		<div class="alert_message"><p> <%=@error_messages %> </p></div>
 	<% end %>
+</div>
 
+<div class='box'>
+	<% if !logged_in? %>
+		<a href="/users/new">Sign up</a>
+	<% end %>
+</div>
 
 <% else %>
-
-	<p> user is logged in </p>
+<!-- 	<p> user is logged in </p>
 
 	<p><a href="/home">Home</a></p>
-
 	<p>
 		<a href="/questions">My questions</a> <br>
 		<a href="/answers">My answers</a>
 	</p>
 
 	<p><a href="/users/<%=current_user.id%>">My Profile</a></p>
-
 	<p><a href="/logout"> Log out </a></p>
-
-
-
-
-
-
+ -->
+	<% redirect to '/home' %>
 
 <% end %>
+
+
+</div>
+
+
+</div> <!-- end of div stage -->
