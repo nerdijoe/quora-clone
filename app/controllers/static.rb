@@ -74,6 +74,7 @@ end
 
 
 
+
 post '/login' do
 	pp "LOGIN"
 	pp params
@@ -409,7 +410,9 @@ end
 
 
 
-# ajax
+# =========================
+# AJAX Question
+# =========================
 
 post '/question_votes/:id/ajax_up' do
 	pp params
@@ -474,7 +477,7 @@ post '/question_votes/:id/ajax_down' do
 end
 
 # =========================
-# Answer Votes up
+# AJAX Answer
 # =========================
 
 post '/answer_votes/:id/ajax_up' do
@@ -531,5 +534,31 @@ post '/answer_votes/:id/ajax_down' do
 
 	end
 	 
+end
+
+
+# =========================
+# AJAX Users
+# =========================
+
+
+post '/users_ajax' do
+	pp params
+	pp @new_user = User.new(params[:user])
+	
+	if @new_user.save
+		# what should happen if the user is save?
+		pp "User is saved"
+		# AJAX		
+		{success: 1, user_object: @new_user}.to_json
+
+	else
+	# what should happen if the user keyed in invalid date?
+		pp "user is not saved"
+		pp @new_user.errors
+		{success: 0, alert_msg: "Signing up failed."}.to_json
+
+	end
+
 end
 

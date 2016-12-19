@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  $('input').focus()
+
 
 	//AJAX time
 	$('.question_upvote').submit(function(e) {
@@ -197,6 +199,57 @@ $(document).ready(function(){
 	})
 
 
+
+	// ***********************************************************
+	// User sign up
+	// ***********************************************************
+
+
+	$('.user_signup').submit(function(e) {
+		console.log("ajax! sign up")
+		e.preventDefault()
+		var listen = e.target
+		
+		$.ajax({
+			url: "/users_ajax",
+			method: "POST",
+			data: $('.user_signup').serialize()
+		}).done(function(response){
+			console.log(response)
+			var result = jQuery.parseJSON(response)
+			
+			
+			if (result.alert_msg) {
+				// $('#alert_ajax').text(result.alert_msg)
+				// $('#alert_ajax').show()
+				display_error(result)
+			}
+			else {
+				
+				console.log("signup")
+				
+				if(result.success == 1) {
+				debugger
+				$('#signup_button').prop('disabled', true)
+				$('#signup_message').empty()
+				$('#signup_message').append("Your account with email address: " + result.user_object.email + " has been created successfully.")
+
+				// Username:<%=@new_user.username%> has created an account with email:<%=@new_user.email %>
+
+
+				}
+				else
+				{
+					console.log("success = 0")
+
+				}
+
+
+			}
+		 
+			console.log("end of ajax signup")
+		})
+	})
 
 
 

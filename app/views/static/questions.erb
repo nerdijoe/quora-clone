@@ -1,25 +1,91 @@
-<h2>Questions</h2>
+<nav>
+	<ul class="topnav">
+		<li><a class='logo_home' href="/">Koala</a></li>
+	  <li><a href="/questions">My Questions</a></li>
+	  <li><a href="/answers">My Answers</a></li>
+	  <li><a href="/users/<%=current_user.id%>">My Profile</a></li>
+	  <li class='right'><a href="/logout">Logout</a></li>
+	</ul>
+</nav>
 
-<form method=post action=/questions>
-	<input type=text placeholder="Your question" name="question[content]" required><br>
-	<input type=submit value="Submit Question">
+
+<div class="stage">
+
+<div class='section'>
+<h2>My Questions</h2>
+
+<form class='home_question' method=post action=/questions>
+	<input class='home_question' type=text placeholder="Ask Koala" name="question[content]" required><br>
+	<button class='home_question' type=submit>Ask</button>
 </form>
 
 
 
+</div> <!-- end of section -->
+
+
+<div class='section'>
+<h3>Your Posted Questions:</h3>
+
+<div class="question_container">
+
 <% if @questions.count < 1 %>
 	<p>You have not posted any questions.</p>
 <% else %>
-	<p>Your posted questions:</p>
 
 	<% @questions.each do |q| %>
-		<p>
-			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
-			<%= q.updated_at %>
-		</p>
-	<% end %>
+		<div class="question_single">
+		
+			<uptext> <%= format_date(q.created_at) %> </uptext>
+			<questiontitle><a href='/questions/<%= q.id %>'><%= q.content %></a></questiontitle>
+			<userinfo>
+				posted by 
+				<% if current_user.id == q.user.id %>
+					you
+				<% else %>
+					<%= q.user.username %>
+				<% end %>				
+			</userinfo>
 
-<% end %>
+	<!-- Votes information vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv -->
+
+			<% if q.question_votes.count > 0 %>
+				<a href='/question_votes/<%= q.id %>'><div class='question_vote_class' id="question_vote_count<%= q.id %>"><%= q.question_votes.count %> </div> votes</a>
+			<% else %>
+				<div class= 'question_vote_class' id="question_vote_count<%= q.id %>"><%= q.question_votes.count %></div> vote
+			<% end %>
+
+				<form method=post action=/question_votes/<%= q.id %>/ajax_up class='question_upvote'>
+					<% if q.question_votes.where(user_id: current_user.id).count == 0 %>
+						<button type=submit id='upvote<%= q.id %>' class='upvote_false'>Upvote</button>
+					<% else %>
+						<button type=submit id='upvote<%= q.id %>' class='upvote_true'>Upvoted</button>
+					<% end %>
+				</form>
+
+				<form method=post action=/question_votes/<%= q.id %>/ajax_down class='question_downvote'>
+					<input type="hidden" name=question[id] value=<%= q.id %> >
+						<button type=submit class='downvote_button' >Downvote</button>
+				</form>
+
+			Answers: <%= q.answers.count %>
+
+			<% if q.answers.count > 0 %>
+				<%= q.answers.first.content %>
+			<% end %>
+
+		
+		</div> <!-- end of div class question_single-->
+	<% end %> <!-- end of each do -->
+
+<% end %> <!-- end of if else -->
+
+</div> <!-- end of div class question_container -->
 
 
-<p><a href='/'>Back to Index</a></p>
+
+
+</div> <!-- end of section -->
+
+
+</div> <!-- end of stage -->

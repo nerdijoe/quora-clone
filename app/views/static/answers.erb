@@ -1,3 +1,21 @@
+<nav>
+	<ul class="topnav">
+		<li><a class='logo_home' href="/">Koala</a></li>
+	  <li><a href="/questions">My Questions</a></li>
+	  <li><a href="/answers">My Answers</a></li>
+	  <li><a href="/users/<%=current_user.id%>">My Profile</a></li>
+	  <li class='right'><a href="/logout">Logout</a></li>
+	</ul>
+</nav>
+
+<div class="stage">
+
+<div class='section'>
+<h2>My Answers</h2>
+
+</div> <!-- end of section -->
+
+
 <h1> My Answers </h1>
 
 <% if @answers.count < 1%>
@@ -23,5 +41,4 @@
 <% end %>
 
 
-
-<p><a href='/'>Back to Index</a></p>
+</div> <!-- end of stage -->
