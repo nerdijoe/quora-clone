@@ -32,7 +32,9 @@ body {
 
 .logo_container {
 	position: absolute;
-	width: 400px;
+	/*width: 400px;*/
+	/*width: 90%;*/
+	max-width: 400px; 
 	top: 50%;
 	left: 50%;
 	margin: -200px 0 0 -200px;
