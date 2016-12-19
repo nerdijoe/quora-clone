@@ -1,24 +1,96 @@
-<h2> Question details </h2>
+<nav>
+	<ul class="topnav">
+		<li><a class='logo_home' href="/">Koala</a></li>
+	  <li><a href="/questions">My Questions</a></li>
+	  <li><a href="/answers">My Answers</a></li>
+	  <li><a href="/users/<%=current_user.id%>">My Profile</a></li>
+	  <li class='right'><a href="/logout">Logout</a></li>
+	</ul>
+</nav>
 
-<h3><%= @question.content %></h3>
-
-<a href='/questions/<%= @question.id %>/edit'>Edit this question</a>
-
-<form method=post action=/questions/<%= @question.id %>/delete >
-	<!-- this line below is Important -->
-	<input id="hidden" type="hidden" name="_method" value="delete">
-	<input type=submit value="Delete Question">
-</form>
+<div class="stage">
 
 
-<p>Answers:</p>
+<div class='section'>
+
+	<h2> Question details </h2>
+
+	<div class="question_single">
+
+	<uptext> <%= format_date(@question.created_at) %> </uptext>
+	<questiontitle><a href='/questions/<%= @question.id %>'><%= @question.content %></a></questiontitle>
+	<userinfo> 
+		posted by 
+		<% if current_user.id == @question.user.id %>
+			you
+		<% else %>
+			<%= @question.user.username %>
+		<% end %>
+	</userinfo>
+
+	<!-- Edit and Delete buttons vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv -->
+	<div class = 'editdelete'
+		<% if current_user.id == @question.user.id %>
+			<!-- can edit question if question belong to the logged in user -->
+			<button><a href='/questions/<%= @question.id %>/edit'><div class='question_vote_class'>Edit</div></a></button>
+
+			<!-- can delete question if question belong to the logged in user -->
+			<form method=post class='question_vote_class' action=/questions/<%= @question.id %>/delete >
+				<!-- this line below is Important -->
+				<input id="hidden" type="hidden" name="_method" value="delete">
+				<button type=submit>Delete</button>
+			</form>
+		<% end %>
+	</div>
+	<!-- Votes information vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv -->
+
+	<% if @question.question_votes.count > 0 %>
+		<a href='/question_votes/<%= @question.id %>'><div class='question_vote_class' id="question_vote_count<%= @question.id %>"><%= @question.question_votes.count %> </div> votes</a>
+	<% else %>
+		<div class= 'question_vote_class' id="question_vote_count<%= @question.id %>"><%= @question.question_votes.count %></div> vote
+	<% end %>
+
+		<form method=post action=/question_votes/<%= @question.id %>/ajax_up class='question_upvote'>
+			<% if @question.question_votes.where(user_id: current_user.id).count == 0 %>
+				<button type=submit id='upvote<%= @question.id %>' class='upvote_false'>Upvote</button>
+			<% else %>
+				<button type=submit id='upvote<%= @question.id %>' class='upvote_true'>Upvoted</button>
+			<% end %>
+		</form>
+
+		<form method=post action=/question_votes/<%= @question.id %>/ajax_down class='question_downvote'>
+			<input type="hidden" name=question[id] value=<%= @question.id %> >
+				<button type=submit class='downvote_button' >Downvote</button>
+		</form>
+
+
+	</div> <!-- end of question single -->
+
+</div> <!-- end of section -->
+
+<div class='section'>
+
+<h3>Answers:</h3>
+
+<div class='answer_container'>
 
 <% if @question.answers.count > 0%>
 	<% @question.answers.each do |a| %>
-		<p>
-			<p style="white-space: pre-line;"> <%= a.content %> </p>
-			<i>posted by <%= a.user.username%> on <%= format_date(a.updated_at) %></i><br>
-			Votes: <div id="answer_vote_count<%= a.id %>"><%= a.answer_votes.count %></div>
+		<div class="answer_single">
+
+			<uptext> <%= format_date(a.created_at) %> </uptext>
+			<answertitle><%= a.content %></answertitle>
+			<userinfo> 
+				posted by 
+				<% if current_user.id == a.user.id %>
+					you
+				<% else %>
+					<%= a.user.username %>
+				<% end %>
+			</userinfo>
+
+
+			Votes: <div class='answer_vote_class' id="answer_vote_count<%= a.id %>"><%= a.answer_votes.count %></div>
 
 			<form method=post action=/answer_votes/<%= a.id %>/ajax_up class='answer_upvote'>
 				<% if a.answer_votes.where(user_id: current_user.id).count == 0 %>
@@ -29,18 +101,23 @@
 			</form>
 
 			<form method=post action=/answer_votes/<%= a.id %>/ajax_down class='answer_downvote'>
-					<button type=submit >Downvote</button>
+					<button class='downvote_button' type=submit >Downvote</button>
 			</form>
 
-
-
-		</p>
+		</div>
 	<% end %>
 <% else %>
 	<p> no answers yet..</p>
 <% end %>
 
+</div><!-- end of class answer container -->
 
+
+</div> <!-- end of section -->
+
+
+
+<div class='section'>
 
 <h3>Reply to this question</h3>
 
@@ -51,10 +128,7 @@
 	<input type=submit value="Submit Answer">
 </form>
 
+</div> <!-- end of section -->
 
-<p>
-	<a href='/questions'>Back to Questions</a><br>
-	<a href='/'>Back to Index</a>
-</p>
-
+</div> <!-- end of stage -->
 

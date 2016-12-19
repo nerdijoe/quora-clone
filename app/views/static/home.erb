@@ -1,38 +1,56 @@
+<nav>
+	<ul class="topnav">
+		<li><a class='logo_home' href="/">Koala</a></li>
+	  <li><a href="/questions">My Questions</a></li>
+	  <li><a href="/answers">My Answers</a></li>
+	  <li><a href="/users/<%=current_user.id%>">My Profile</a></li>
+	  <li class='right'><a href="/logout">Logout</a></li>
+	</ul>
+</nav>
 
 <div class="stage">
 
-<nav>
-	<a href="/questions">My questions</a>
-	<a href="/answers">My answers</a>
+<div class='section'>
+<h2>Top Stories For You</h2>
 
-	<a href="/users/<%=current_user.id%>">My Profile</a>
-	<a href="/logout"> Log out </a>
+<h4> Hello <%= current_user.fullname %>! </h4>
 
-</nav>
+	<form class='home_question' method=post action=/home/questions>
+		<input class='home_question' type=text placeholder="Ask Koala" name="question[content]" required><br>
+		<button class='home_question' type=submit>Ask</button>
+	</form>
 
-
-<section>
-
-<h1>Home</h1>
-
-<p> Hello <%= current_user.fullname %>! </p>
+</div>
 
 
+<div class='section'>
 
+<div class="question_container">
 
 <% if @questions.count < 1 %>
 	<p>no questions...</p>
 <% else %>
-	<p>Top Stories:</p>
 
 	<% @questions.each do |q| %>
-		<p>
-			<%= q.content %> <a href='/questions/<%= q.id %>'>details</a> <br>
-			<i>posted by <%= q.user.username %> on <%= format_date(q.created_at) %></i><br>
-			Votes: <div id="question_vote_count"><%= q.question_votes.count %></div>
+		<div class="question_single">
+		
+			<uptext> <%= format_date(q.created_at) %> </uptext>
+			<questiontitle><a href='/questions/<%= q.id %>'><%= q.content %></a></questiontitle>
+			<userinfo>
+				posted by 
+				<% if current_user.id == q.user.id %>
+					you
+				<% else %>
+					<%= q.user.username %>
+				<% end %>				
+			</userinfo>
+
+	<!-- Votes information vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv -->
 
 			<% if q.question_votes.count > 0 %>
-				<a href='/question_votes/<%= q.id %>'>View Upvotes</a>
+				<a href='/question_votes/<%= q.id %>'><div class='question_vote_class' id="question_vote_count<%= q.id %>"><%= q.question_votes.count %> </div> votes</a>
+			<% else %>
+				<div class= 'question_vote_class' id="question_vote_count<%= q.id %>"><%= q.question_votes.count %></div> vote
 			<% end %>
 
 				<form method=post action=/question_votes/<%= q.id %>/ajax_up class='question_upvote'>
@@ -45,17 +63,65 @@
 
 				<form method=post action=/question_votes/<%= q.id %>/ajax_down class='question_downvote'>
 					<input type="hidden" name=question[id] value=<%= q.id %> >
-						<button type=submit >Downvote</button>
+						<button type=submit class='downvote_button' >Downvote</button>
 				</form>
 
-		</p>
-	<% end %>
+	<!-- Answer snippet -->
+	
+			<div class='answer_container'>
 
-<% end %>
+			<% if q.answers.count > 0%>
+				<% a = q.answers.first %>
+					<div class="answer_snippet">
+
+						<uptext> <%= format_date(a.created_at) %> </uptext>
+						<answertitle><%= a.content %></answertitle>
+						<userinfo> 
+							posted by 
+							<% if current_user.id == a.user.id %>
+								you
+							<% else %>
+								<%= a.user.username %>
+							<% end %>
+						</userinfo>
+
+
+						Votes: <div class='answer_vote_class' id="answer_vote_count<%= a.id %>"><%= a.answer_votes.count %></div>
+
+						<form method=post action=/answer_votes/<%= a.id %>/ajax_up class='answer_upvote'>
+							<% if a.answer_votes.where(user_id: current_user.id).count == 0 %>
+								<button type=submit id='upvote<%= a.id %>' class='upvote_false'>Upvote</button>
+							<% else %>
+								<button type=submit id='upvote<%= a.id %>' class='upvote_true'>Upvoted</button>
+							<% end %>
+						</form>
+
+						<form method=post action=/answer_votes/<%= a.id %>/ajax_down class='answer_downvote'>
+								<button class='downvote_button' type=submit >Downvote</button>
+						</form>
+
+						<total_answer>There are <%= q.answers.count %> answer(s)</total_answer>
+
+					</div> <!-- end of answer_snippet -->
+
+
+			<% else %>
+				<div class="answer_snippet">no answers yet</div>
+			<% end %>
+
+			</div><!-- end of class answer container -->
 
 
 
-</section>
+		</div> <!-- end of div class question_single-->
+	<% end %> <!-- end of each do -->
+
+<% end %> <!-- end of if else -->
+
+</div> <!-- end of div class question_container -->
+
+
+</div> <!-- end of section -->
 
 
 
